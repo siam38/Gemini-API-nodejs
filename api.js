@@ -69,8 +69,8 @@ async function saveImageTemporarily(imageUrl) {
 }
 
 // Configuration
-const secure1PSID = process.env.SECURE_1PSID || "g.a000ywj1RvrExBoxBNqT4hk7JPi2s9Nc-AeMgiOJoJHSULpExdCl-OTwRd2jXY-kkayw3vreLQACgYKAWQSARASFQHGX2MipVXGjsOCLilvPu1T3Yag9hoVAUF8yKrlJRpp7gAMZnlUe35dkjcU0076";
-const secure1PSIDTS = process.env.SECURE_1PSIDTS || "sidts-CjEB5H03P9rMeWJSSD1YZ5FMsn1jMavAZUwec9kXgmewcSD2BUu1_biW6Skpp4bxsP5YEAA";
+const secure1PSID = process.env.SECURE_1PSID || "your_default_1PSID";
+const secure1PSIDTS = process.env.SECURE_1PSIDTS || "your_default_1PSIDTS";
 
 // Global client instance
 let geminiClient = null;
