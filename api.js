@@ -15,6 +15,31 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
 
+function replaceWithBoldLetters(text) {
+  const map = {
+    ...Object.fromEntries("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((c, i) => [c, String.fromCodePoint(0x1D5D4 + i)])),
+    ...Object.fromEntries("abcdefghijklmnopqrstuvwxyz".split("").map((c, i) => [c, String.fromCodePoint(0x1D5EE + i)])),
+    ...Object.fromEntries("0123456789".split("").map((c, i) => [c, String.fromCodePoint(0x1D7EC + i)])),
+  };
+  return text.replace(/[A-Za-z0-9]/g, ch => map[ch] || ch);
+}
+
+function formatContent(text) {
+  const bolded = text
+    .replace(/\*\*(.*?)\*\*/g, (_, group) => `**${replaceWithBoldLetters(group)}**`)
+    .replace(/\*\*/g, '');
+
+  const restored = bolded
+    .replace(/• (.*?)\n/g, '**$1**\n')
+    .replace(/\*/g, '•');
+
+  const noImages = restored.replace(/!\s*\[.*?\]\s*\([^)]+\)/g, '');
+  const cleanText = noImages.replace(/\[.*?\]\(.*?\)/g, '');
+
+  return cleanText;
+}
+
+
 
 async function downloadImage(imageUrl) {
     try {
@@ -218,7 +243,7 @@ app.post("/ask-gemini", async (req, res) => {
             success: true,
             conversation_id: conversationId,
             response: {
-                text: response.text,
+                text: formatContent(response.text),
                 thoughts: response.thoughts || null,
                 candidates_count: response.candidates.length,
                 model_used: selectedModel.name,
