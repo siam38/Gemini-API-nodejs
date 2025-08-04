@@ -27,7 +27,7 @@ const Headers = {
 const Model = {
     UNSPECIFIED: {
         name: "unspecified",
-        header: {},
+        header: {"x-goog-ext-525001261-jspb": "[1,null,null,null,\"71c2d248d3b102ff\"]"},
         advancedOnly: false
     },
     G_2_5_FLASH: {
